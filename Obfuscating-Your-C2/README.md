@@ -390,7 +390,7 @@ the internals that are used to determine how data is read.
 ### Understanding Profile Options
 
 Below are several tables that are based on Cobalt Strikes documentation on
-their profiles.
+their [profiles](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/malleable-c2_profile-language.htm#_Toc65482837).
 
 |    Statement     |          Action          |           Inverse            |
 | :--------------: | :----------------------: | :--------------------------: |
@@ -430,7 +430,7 @@ times to changing the port that the listener uses to listen for responses.
 
 # Reference Links
 
-- [Cobalt Strike Overview of Malleable C2](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/malleable-c2_main.htm)
+- [Cobalt Strike Overview of Malleable C2](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/malleable-c2_profile-language.htm#_Toc65482837)
 - [Empire Malleable C2 Wiki](https://bc-security.gitbook.io/empire-wiki/listeners/malleable-c2)
 - [Cobalt Strike Malleable C2 guild](https://github.com/threatexpress/malleable-c2)
 - [Havoc profiles](https://havocframework.com/docs/profiles)
