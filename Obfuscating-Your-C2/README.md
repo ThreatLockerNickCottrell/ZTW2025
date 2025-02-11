@@ -95,7 +95,7 @@ Ciphers are among the oldest cryptographic systems. A cipher works by rearrangin
 or remapping the letters of the alphabet. Here are some common Ciphers
 
 - Caesar cipher (AKA ROT 13)
-- Rail Dence Cipher 
+- Rail Fence Cipher 
 - Atbash Cipher 
 - Bacon Cipher 
 
@@ -251,16 +251,182 @@ trigger a network call:
 
 # Creating A Custom Empire Profile
 
-Now we will be creating out empire C2 profile and agent. This will show you want
-need to complete the lab. Please start the victim VM and start the kali VM
+Now we will be creating our empire C2 profile and agent. This will show you what
+you need to complete the lab. Please start the victim VM and start the kali VM
+
+Once the machine is booted and you have logged in with `kali:kali`, you can go
+to `https://localhost:1337/index.html` to get access to the powershell-empire
+portal.
+
+![Picture of empire login](Assets/writing_your_own_c2_profile.png)
+
+On this page, you can log in with `empireadmin:password123`
 
 ## Creating basic Empire listener
 
+Once you've logged into empire, the first thing that we will need to do is to
+create a listener. We can start by going to the listeners section of starkiller
+and clicking `create`. 
+
+There, we can choose the `http_malleable` type and change whatever settings are
+desired. The only required option at this step is the profile. You can choose
+any profile that you desire.
+
+![Creating a malleable listener](Assets/writing_your_own_c2_profile_2.png)
+
+A few things to note here are the `bind ip` and `Host` options. It is important
+to understand where the listener is listening from compared to what the host is
+calling back to. In the next section on stagers, created stagers will utilize
+the host section in its creation. While the bind ip and host will typically be
+the same, they don't have to be and in some cases, it can be advantageous for
+them to be different. Especially if pivoting or domain aliasing is used.
+
+Once you're all done, you can click next, and move on to the next step.
+
 ## Creating basic Empire stager 
+
+After creating your listener, you can click on the stagers section on the ribbon
+and select `Create`. The type will vary based on the target, but in this case,
+we are going to be generating a windows stager using the `windows_launcher_bat`.
+After that, just set the listener to the listener that we made in the previous
+section, and select `Submit`
+
+![Creating a stager in empire](Assets/writing_your_own_c2_profile_3.png)
+
+After it is submitted, you can click to download the stager to the given
+computer. Now that we have a copy of the file, we just need to copy it to our
+`Win10Victim` machine and run it.
+
+Once there, you can run the stager and powershell should notify that an agent
+has connected. You can communicate and use the agent in the `agents` section
+just like any other C2. But we're we sneaky? We can open up Wireshark and see
+that all c2 traffic looks like something else.
 
 ## Creating basic Empire Profile
 
+Now that we know how to use a malleable C2 profile, let's go over how you make
+one of your own.
+
+Inside your home directory should be a folder leading to your C2 profiles. You
+can pull one out and take a look at the code inside. 
+
+```nginx-conf
+#
+# Online Certificate Status Protocol (OCSP) Profile
+#   http://tools.ietf.org/html/rfc6960
+#
+# Author: @harmj0y
+#
+
+set sleeptime "20000"; # Use a 20s interval
+set jitter    "20"; # 20% jitter
+set maxdns    "255";
+set useragent "Microsoft-CryptoAPI/6.1";
+
+
+http-get {
+
+    set uri "/oscp/";
+
+    client {
+        header "Accept" "*/*";
+        header "Host" "ocsp.verisign.com";
+
+        metadata {
+            netbios;
+            uri-append;
+        }
+    }
+
+    server {
+        header "Content-Type" "application/ocsp-response";
+        header "content-transfer-encoding" "binary";
+        header "Cache-Control" "max-age=547738, public, no-transform, must-revalidate";
+        header "Connection" "keep-alive";
+
+        output {
+            print;
+        }
+    }
+}
+
+http-post {
+
+    set uri "/oscp/a/";
+
+    client {
+
+        header "Accept" "*/*";
+        header "Host" "ocsp.verisign.com";
+
+        id {
+            netbios;
+            uri-append;
+        }
+
+        output {
+            print;
+        }
+    }
+
+    server {
+        header "Content-Type" "application/ocsp-response";
+        header "content-transfer-encoding" "binary";
+        header "Cache-Control" "max-age=547738, public, no-transform, must-revalidate";
+        header "Connection" "keep-alive";
+
+        output {
+            print;
+        }
+    }
+}
+```
+
+The official sources from cobalt strike recommend taking an already complete
+profile and rearranging it to fit your needs, so we can do just that. Take a
+profile that you think will fit your desired traits. From there, we will go over
+the internals that are used to determine how data is read.
+
 ### Understanding Profile Options
+
+Below are several tables that are based on Cobalt Strikes documentation on
+their profiles.
+
+|    Statement     |          Action          |           Inverse            |
+| :--------------: | :----------------------: | :--------------------------: |
+| append "string"  |     Append "string"      |    Trim "string" from end    |
+|      base64      |      Base64 Encode       |        Base64 Decode         |
+|    base64url     |  URL-safe Base64 Encode  |    URL-safe Base64 Decode    |
+|       mask       | XOR mask with random key |  XOR mask with matching key  |
+|     netbios      |    NetBIOS Encode 'a'    |      NetBIOS Decode 'a'      |
+|     netbiosu     |    NetBIOS Encode 'A'    |      NetBIOS Decode 'A'      |
+| prepend "string" |     Prepend "string"     | Trim "string" from beginning |
+
+The statements are used to mutate the current C2 data into a form that is easier
+to hide. Mutating given data ends when we place a statement from the table below.
+
+| Ending Statement |                   Description                    |
+| :--------------: | :----------------------------------------------: |
+| header "header"  | Stores the final mutated data in an HTTP header  |
+| parameter "key"  | Stores the final mutated data in a URI parameter |
+|      print       |      Sends the final data as is in the body      |
+|    uri-append    |  Sends final data to the URI as a GET argument   |
+
+Outside of data mutation, options can be set to make a profile look closer to
+the service that it is attempting to imitate. This can include delaying checkin
+times to changing the port that the listener uses to listen for responses.
+
+|      Option      |                             Description                             |
+| :--------------: | :-----------------------------------------------------------------: |
+|   data_jitter    |    Provides random data to payload to scramble C2 communications    |
+|      jitter      | adds variation in checkin times. Prevents patterns in checkin time. |
+|      sleep       |                 Sets a consistent checkin interval*                 |
+|     tcp_port     |            Sets the tcp port for the client to listen on            |
+|       uri        |                    Sets the uri path to request                     |
+|    useragent     |                Sets the agent useragent in requests                 |
+| tcp_frame_header |             Adds any additional data to the TCP header              |
+|       verb       |                 Chooses between GET or POST request                 |
+|   sample_name    |    A name to describe the profile. Only useful in documentation     |
 
 # Reference Links
 
