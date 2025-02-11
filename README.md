@@ -8,13 +8,8 @@ interactively with the Hacking Lab's, get a recap, or extend their knowledge fur
 
 ## Courses
 
-* **Lab: Using Metasploit - A Beginner's Guide:** [ZTW2025/Metasploit (Course Content)](Metasploit/README.md)
-* **Lab: Getting Started with Rubber Ducky:** [ZTW2025/Rubber-Ducky-Intro (Course Content)](Rubber-Ducky-Intro/README.md)
-* **Lab: Advanced Rubber Ducky Techniques:** [ZTW2025/Rubber-Ducky-Advanced (Course Content)](Rubber-Ducky-Advanced/README.md)
-* **Lab: Cookie Theft - Advanced Methods and Practices:** [ZTW2025/Cookie-Theft (Course Content)](Cookie-Theft/README.md)
 * **Lab: Malware Development:** [ZTW2025/Malware-Development (Course Content)](Malware-Development/README.md)
 * **Lab: Obfuscating Your C2:** [ZTW2025/Obfuscating-Your-C2 (Course Content)](Obfuscating-Your-C2/README.md)
-* **Lab: Windows Security Review:** [ZTW2025/Windows-Security-Review (Course Content)](Windows-Security-Review/README.md)
 * **CTRL+ALT+PWN Challenge:** [ZTW2025/CTRL-ALT-PWN (guidelines and writeup)](CTRL-ALT-PWN/README.md)
 
 > **Tip:** Click one of links above to access its respective course content.
