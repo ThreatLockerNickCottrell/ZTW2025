@@ -169,7 +169,10 @@ The main problem is that when security people or products look at network
 packets and notice that they are entirely just emojis, it raises some red flags
 about why a computer would communicate with only emojis.
  
-# In the picture below, you can see 
+
+**In the picture below**, you can see a packet from Wireshark. Note that humans
+would see this as normal behavior, But a computer algorithm might flag the packet 
+due to the entropy of the packet. 
 
 ![WireShark of ](Assets/problem_too_suspicious.png)
 
