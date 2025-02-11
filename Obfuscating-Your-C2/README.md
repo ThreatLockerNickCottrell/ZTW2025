@@ -392,41 +392,41 @@ the internals that are used to determine how data is read.
 Below are several tables that are based on Cobalt Strikes documentation on
 their [profiles](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/malleable-c2_profile-language.htm#_Toc65482837).
 
-|    Statement     |          Action          |           Inverse            |
-| :--------------: | :----------------------: | :--------------------------: |
-| append "string"  |     Append "string"      |    Trim "string" from end    |
-|      base64      |      Base64 Encode       |        Base64 Decode         |
-|    base64url     |  URL-safe Base64 Encode  |    URL-safe Base64 Decode    |
-|       mask       | XOR mask with random key |  XOR mask with matching key  |
-|     netbios      |    NetBIOS Encode 'a'    |      NetBIOS Decode 'a'      |
-|     netbiosu     |    NetBIOS Encode 'A'    |      NetBIOS Decode 'A'      |
-| prepend "string" |     Prepend "string"     | Trim "string" from beginning |
+| Statement        | Action                   | Inverse                      |
+| :--------------- | :----------------------- | :--------------------------- |
+| append "string"  | Append "string"          | Trim "string" from end       |
+| base64           | Base64 Encode            | Base64 Decode                |
+| base64url        | URL-safe Base64 Encode   | URL-safe Base64 Decode       |
+| mask             | XOR mask with random key | XOR mask with matching key   |
+| netbios          | NetBIOS Encode 'a'       | NetBIOS Decode 'a'           |
+| netbiosu         | NetBIOS Encode 'A'       | NetBIOS Decode 'A'           |
+| prepend "string" | Prepend "string"         | Trim "string" from beginning |
 
 The statements are used to mutate the current C2 data into a form that is easier
 to hide. Mutating given data ends when we place a statement from the table below.
 
-| Ending Statement |                   Description                    |
-| :--------------: | :----------------------------------------------: |
+| Ending Statement | Description                                      |
+| :--------------- | :----------------------------------------------- |
 | header "header"  | Stores the final mutated data in an HTTP header  |
 | parameter "key"  | Stores the final mutated data in a URI parameter |
-|      print       |      Sends the final data as is in the body      |
-|    uri-append    |  Sends final data to the URI as a GET argument   |
+| print            | Sends the final data as is in the body           |
+| uri-append       | Sends final data to the URI as a GET argument    |
 
 Outside of data mutation, options can be set to make a profile look closer to
 the service that it is attempting to imitate. This can include delaying checkin
 times to changing the port that the listener uses to listen for responses.
 
-|      Option      |                             Description                             |
-| :--------------: | :-----------------------------------------------------------------: |
-|   data_jitter    |    Provides random data to payload to scramble C2 communications    |
-|      jitter      | adds variation in checkin times. Prevents patterns in checkin time. |
-|      sleep       |                 Sets a consistent checkin interval*                 |
-|     tcp_port     |            Sets the tcp port for the client to listen on            |
-|       uri        |                    Sets the uri path to request                     |
-|    useragent     |                Sets the agent useragent in requests                 |
-| tcp_frame_header |             Adds any additional data to the TCP header              |
-|       verb       |                 Chooses between GET or POST request                 |
-|   sample_name    |    A name to describe the profile. Only useful in documentation     |
+| Option           | Description                                                         |
+| :--------------- | :------------------------------------------------------------------ |
+| data_jitter      | Provides random data to payload to scramble C2 communications       |
+| jitter           | adds variation in checkin times. Prevents patterns in checkin time. |
+| sleep            | Sets a consistent checkin interval*                                 |
+| tcp_port         | Sets the tcp port for the client to listen on                       |
+| uri              | Sets the uri path to request                                        |
+| useragent        | Sets the agent useragent in requests                                |
+| tcp_frame_header | Adds any additional data to the TCP header                          |
+| verb             | Chooses between GET or POST request                                 |
+| sample_name      | A name to describe the profile. Only useful in documentation        |
 
 # Reference Links
 
