@@ -23,7 +23,6 @@ something mundane and inconspicuous.
     - [Example](#example-1)
   - [Encryption](#encryption)
   - [Problem With Basic Obfuscating](#problem-with-basic-obfuscating)
-- [In the picture below, you can see](#in-the-picture-below-you-can-see)
 - [Advance Obfuscating](#advance-obfuscating)
   - [Knowing The Target](#knowing-the-target)
   - [Common Network protocol](#common-network-protocol)
