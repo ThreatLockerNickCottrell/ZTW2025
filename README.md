@@ -9,6 +9,7 @@ interactively with the Hacking Lab's, get a recap, or extend their knowledge fur
 ## Courses
 
 * **Lab: Malware Development:** [ZTW2025/Malware-Development (Course Content)](Malware-Development/README.md)
+* **Lab: Metasploit:** [ZTW2025/Metasploit (Course Content)](Metasploit/README.md)
 * **Lab: Obfuscating Your C2:** [ZTW2025/Obfuscating-Your-C2 (Course Content)](Obfuscating-Your-C2/README.md)
 * **CTRL+ALT+PWN Challenge:** [ZTW2025/CTRL-ALT-PWN (guidelines and writeup)](CTRL-ALT-PWN/README.md)
 
