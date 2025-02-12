@@ -1,3 +1,4 @@
+
 ![ZTW Logo](../Assets/Hacking_Labs_graphics_ztw_logo_med_1.png)
 
 # Obfuscating Your C2
@@ -257,9 +258,12 @@ trigger a network call:
 Now we will be creating our empire C2 profile and agent. This will show you what
 you need to complete the lab. Please start the victim VM and start the kali VM
 
-Once the machine is booted and you have logged in with `kali:kali`, you can go
-to `https://localhost:1337/index.html` to get access to the powershell-empire
+Once the machine is booted and you have logged in with `kali:kali`,  you can head to 
+`https://localhost:1337/index.html` to get access to the powershell-empire
 portal.
+> if the link is dead then open the terminal and type 
+> `sudo powershell-empire server` once you see 
+> `Uvicorn running on http://0.0.0.0:1337` then
 
 ![Picture of empire login](Assets/writing_your_own_c2_profile.png)
 
@@ -268,28 +272,29 @@ On this page, you can log in with `empireadmin:password123`
 ## Creating basic Empire listener
 
 Once you've logged into empire, the first thing that we will need to do is to
-create a listener. We can start by going to the listeners section of starkiller
+create a listener. We can start by going to the listeners section of StarKiller
 and clicking `create`. 
 
 There, we can choose the `http_malleable` type and change whatever settings are
 desired. The only required option at this step is the profile. You can choose
-any profile that you desire.
+**any 
+profile** that you desire.
 
 ![Creating a malleable listener](Assets/writing_your_own_c2_profile_2.png)
 
 A few things to note here are the `bind ip` and `Host` options. It is important
 to understand where the listener is listening from compared to what the host is
 calling back to. In the next section on stagers, created stagers will utilize
-the host section in its creation. While the bind ip and host will typically be
-the same, they don't have to be and in some cases, it can be advantageous for
+the host section in its creation. While the bind IP and host will typically be
+the same, they don't have to be, and, in some cases, it can be advantageous for
 them to be different. Especially if pivoting or domain aliasing is used.
 
-Once you're all done, you can click next, and move on to the next step.
+Once you're all done, you can click submit and move on to the next step.
 
 ## Creating basic Empire stager 
 
-After creating your listener, you can click on the stagers section on the ribbon
-and select `Create`. The type will vary based on the target, but in this case,
+After creating your listener, you can click on the "stagers" section on the left ribbon
+and then select `Create`. The type will vary based on the target, but in this case,
 we are going to be generating a windows stager using the `windows_launcher_bat`.
 After that, just set the listener to the listener that we made in the previous
 section, and select `Submit`
@@ -298,9 +303,9 @@ section, and select `Submit`
 
 After it is submitted, you can click to download the stager to the given
 computer. Now that we have a copy of the file, we just need to copy it to our
-`Win10Victim` machine and run it.
+`Win10Victim` machine and run it. login as `ZTW:Demouser1!`
 
-Once there, you can run the stager and powershell should notify that an agent
+Once there, you can run the stager, and PowerShell should notify that an agent
 has connected. You can communicate and use the agent in the `agents` section
 just like any other C2. But we're we sneaky? We can open up Wireshark and see
 that all c2 traffic looks like something else.
@@ -310,9 +315,11 @@ that all c2 traffic looks like something else.
 Now that we know how to use a malleable C2 profile, let's go over how you make
 one of your own.
 
-Inside your home directory should be a folder leading to your C2 profiles. You
-can pull one out and take a look at the code inside. 
+Inside your home directory `/home/kali/Malleable-C2-Profiles/`should be a 
+folder `Malleable-C2-Profiles` leading to your C2 profiles. You can pull one 
+out and take a look at the code inside. 
 
+OCSP profile in the `Malleable-C2-Profiles/Normal/` folder. 
 ```nginx-conf
 #
 # Online Certificate Status Protocol (OCSP) Profile
@@ -416,16 +423,16 @@ to hide. Mutating given data ends when we place a statement from the table below
 | uri-append       | Sends final data to the URI as a GET argument    |
 
 Outside of data mutation, options can be set to make a profile look closer to
-the service that it is attempting to imitate. This can include delaying checkin
+the service that it is attempting to imitate. This can include delaying check-in
 times to changing the port that the listener uses to listen for responses.
 
 | Option           | Description                                                         |
 | :--------------- | :------------------------------------------------------------------ |
 | data_jitter      | Provides random data to payload to scramble C2 communications       |
-| jitter           | adds variation in checkin times. Prevents patterns in checkin time. |
-| sleep            | Sets a consistent checkin interval*                                 |
-| tcp_port         | Sets the tcp port for the client to listen on                       |
-| uri              | Sets the uri path to request                                        |
+| jitter           | adds variation in check-in times. Prevents patterns in check-in time. |
+| sleep            | Sets a consistent check-in interval*                                 |
+| tcp_port         | Sets the TCP port for the client to listen on                       |
+| uri              | Sets the URI path to request                                        |
 | useragent        | Sets the agent useragent in requests                                |
 | tcp_frame_header | Adds any additional data to the TCP header                          |
 | verb             | Chooses between GET or POST request                                 |
@@ -437,3 +444,4 @@ times to changing the port that the listener uses to listen for responses.
 - [Empire Malleable C2 Wiki](https://bc-security.gitbook.io/empire-wiki/listeners/malleable-c2)
 - [Cobalt Strike Malleable C2 guild](https://github.com/threatexpress/malleable-c2)
 - [Havoc profiles](https://havocframework.com/docs/profiles)
+- [Example C2 Profiles](https://github.com/BC-SECURITY/Malleable-C2-Profiles/tree/master)
