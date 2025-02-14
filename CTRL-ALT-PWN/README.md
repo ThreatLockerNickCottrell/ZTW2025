@@ -65,6 +65,6 @@ CTRL+ALT+PWN prize computer.
 
 ## Step-By-Step Writeup
 
-[Writeup Link](Writeup/README.md)
+[Writeup Link](Writeup/)
 
 
