@@ -2,6 +2,10 @@
 
 # Welcome to CTRL+ALT+PWN for ZTW 2025!
 
+## QR Code
+
+![QR Code](Assets/qr_code-ctrl_alt_pwn.png)
+
 ## Scenario
 
 Your company has been hit by ransomware from the Threa7 ransom gang, and you
