@@ -59,10 +59,6 @@ The first person to successfully find and submit the correct flag to the
 Microsoft form [here](https://forms.office.com/r/6xmFX1e7hv) will be awarded the
 CTRL+ALT+PWN prize computer.
 
-> In the event no one has submitted the correct flag to the Microsoft form, the
-> prize computer will be awarded to whoever scores the highest on the Cyber Hero
-> Certification Exam.
-
 ## Step-By-Step Writeup
 
 [Writeup Link](Writeup/)
