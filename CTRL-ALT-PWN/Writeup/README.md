@@ -1,5 +1,5 @@
 
-![CTRLALTPWN LOGO](../Assets/logo.png)
+![CTRLALTPWN LOGO](Assets/ctrl_alt_pwn_logo.png)
 
 # Welcome to the CTRL+ALT+PWN Write Up for ZTW 2025!
 
