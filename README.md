@@ -4,7 +4,7 @@
 
 This repository holds all the course content from hacking labs from ZTW2025.
 The purpose of this was to share content with those that wish to follow along
-interactively with the Hacking Lab's, get a recap, or extend their knowledge further.
+interactively with the Hacking Labs, get a recap, or extend their knowledge further.
 
 ## Courses
 
